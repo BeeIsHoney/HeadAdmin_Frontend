@@ -1,0 +1,13 @@
+import type {ShopSubscription} from './shop-subscription';
+export type Role = 'HEAD_ADMIN' | 'ADMIN_USER';
+export interface Profile { id:number; userName:string; email:string; role:Role; enabled:boolean; balance:number; createdAt:string }
+export interface Shop { id:number; ownerId:number; name:string; code:string; enabled:boolean; createdAt:string; manuallyEnabled?:boolean; subscription?:ShopSubscription }
+export interface Page<T> { content:T[]; totalElements:number; totalPages:number; number:number; size:number; last:boolean }
+export interface InputField { id?:string; key?:string; name?:string; label?:string; type?:string; placeholder?:string; options?:(string|{label:string;value:string})[]; required?:boolean; providerKey?:string; validationKey?:string }
+export interface Package { id:number; name:string; price:number; available?:boolean; active?:boolean; maxQuantity?:number; multipleQuantityEnabled?:boolean; stockLeft?:number|null; stockModeEnabled?:boolean; stockKnown?:boolean; availabilityKnown?:boolean; deliveryMode?:string; requiredFields?:InputField[]; currency?:string; description?:string; originalPrice?:number; autoDeliverEnabled?:boolean; providerName?:string }
+export interface Product { id:number; name:string; code?:string; providerName?:string; image?:string; imageUrl?:string; category?:string; note?:string; active?:boolean; packages:Package[]; requiredFields?:InputField[]; validationEnabled?:boolean; deliveryEstimate?:string; kind:'GAME'|'STORE' }
+export interface OrderData { id:number; publicOrderId?:string; gameName?:string; productName?:string; packageName?:string; quantity?:number; sellPrice?:number; unitPrice?:number; totalPrice?:number; status:string; playerId?:string; serverId?:string; createdAt:string; updatedAt?:string; deliveryMode?:string; codes?:string[]; deliveryValues?:string[]; userInputs?:Record<string,string> }
+export interface Purchase { id:number; ownerId:number; shopId:number; kind:'GAME'|'STORE'; source:string; externalCustomerId?:string; externalOrderId?:string; idempotencyKey:string; provider?:string; providerOrderId?:string; createdAt:string; order:OrderData }
+export interface Transaction {id:number; publicReference:number; ownerId:number; shopId?:number; purchaseId?:number; amount:number; beforeBalance:number; afterBalance:number; type:string; remark:string; date:string; time:string}
+export interface ApiKey {id:number;publicId:string;label:string;allowOrders:boolean;expiresAt:string|null;revokedAt:string|null;createdAt:string}
+export interface Wallet { id:number; providerName?:string; balance?:number; currency?:string; lastSyncedAt?:string }
