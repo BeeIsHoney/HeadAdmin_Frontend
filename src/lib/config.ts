@@ -10,7 +10,11 @@ function backendUrl(value: string | undefined, fallback: string, name: string) {
     throw new Error(`${name} must be a valid backend base URL without credentials, query parameters or a fragment.`);
   }
 }
-export const BACKEND_URL = backendUrl(process.env.MAIN_BACKEND_URL, 'http://127.0.0.1:8080', 'MAIN_BACKEND_URL');
+// Vercel uses the Railway Main Backend; local development keeps its localhost default.
+const mainFallback = process.env.VERCEL === '1'
+  ? 'https://tornadoservicemainbackend-production.up.railway.app'
+  : 'http://127.0.0.1:8080';
+export const BACKEND_URL = backendUrl(process.env.MAIN_BACKEND_URL, mainFallback, 'MAIN_BACKEND_URL');
 export const PANEL = {head:true,role:'HEAD_ADMIN',title:'Head Admin',port:3000} as const;
 
 // Optional explicit links for separately deployed shop panels. No demo URL is preconfigured.
